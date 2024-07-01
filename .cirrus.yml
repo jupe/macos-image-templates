@@ -37,9 +37,6 @@ task:
 
 task:
   name: "Update Vanilla Sequoia Image"
-  persistent_worker:
-    labels:
-      name: dev-mini-experimental
   only_if: $CIRRUS_BRANCH == $CIRRUS_DEFAULT_BRANCH && changesInclude("templates/vanilla-sequoia.pkr.hcl")
   <<: *defaults
   build_script:
@@ -57,11 +54,6 @@ task:
   name: "Update Base Images ($MACOS_VERSION)"
   alias: update-base
   matrix:
-    - env:
-        MACOS_VERSION: sequoia
-      persistent_worker:
-        labels:
-          name: dev-mini-experimental
     - env:
         MACOS_VERSION: sonoma
   only_if: $CIRRUS_CRON == "monthly"
@@ -130,11 +122,6 @@ task:
   name: "Release Xcode $CIRRUS_TAG ($MACOS_VERSION)"
   only_if: $CIRRUS_TAG != ""
   matrix:
-    - env:
-        MACOS_VERSION: sequoia
-      persistent_worker:
-        labels:
-          name: dev-mini-experimental
     - env:
         MACOS_VERSION: sonoma
   <<: *defaults
