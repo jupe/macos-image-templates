@@ -1,0 +1,25 @@
+name: iOS starter workflow
+
+on:
+  push:
+    branches: [ "master" ]
+  pull_request:
+
+jobs:
+  build:
+    name: Build and Test default scheme using any available iPhone simulator
+    runs-on: macos-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      
+      - name: install tart
+        run: |
+          brew install cirruslabs/cli/tart
+      - name: build vanilla
+        run: |
+          packer build templates/vanilla-sonoma.pkr.hcl
+      - name: build base
+        run: |
+          packer build -var-file="variables.pkrvars.hcl" templates/base.pkr.hcl
